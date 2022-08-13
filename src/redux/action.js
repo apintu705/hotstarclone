@@ -1,6 +1,7 @@
 
 
 export const getuseraction=(user)=>async(dispatch)=>{
+    console.log(user)
     const userc={
         name:user.displayName,
         email:user.email,

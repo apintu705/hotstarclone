@@ -2,6 +2,7 @@ import React from 'react'
 import styled from "styled-components"
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { provider } from '../firebase';
+import {Link} from 'react-router-dom'
 import {getsignout, getuseraction} from "../redux/action"
 
 import {useDispatch,useSelector} from 'react-redux'
@@ -37,34 +38,34 @@ export const Header = (props) => {
         {!user?<Login onClick={handleAuth}>Login</Login>:(
           <>
             <NavMenu>
-              <a href="/home">
+              <Link to="/home">
                 <img src="/images/home-icon.svg" alt="HOME" />
                 <span>HOME</span>
-              </a>
-             <a href="/">
+              </Link>
+             <Link to="/">
                <img src="/images/search-icon.svg" alt="SEARCH" />
                 <span>SEARCH</span>
-              </a>
-              <a href="/">
+              </Link>
+              <Link to="/">
                 <img src="/images/watchlist-icon.svg" alt="WATCHLIST" />
                 <span>WATCHLIST</span>
-              </a>
-              <a href="/">
+              </Link>
+              <Link to="/">
                 <img src="/images/original-icon.svg" alt="ORIGINALS" />
                 <span>ORIGINALS</span>
-              </a>
-              <a href="/">
+              </Link>
+              <Link to="/">
                 <img src="/images/movie-icon.svg" alt="MOVIES" />
                 <span>MOVIES</span>
-              </a>
-              <a href="/">
+              </Link>
+              <Link to="/">
                 <img src="/images/series-icon.svg" alt="SERIES" />
                 <span>SERIES</span>
-              </a>
+              </Link>
             </NavMenu>
 
             <SignOut>
-            <UserImg src={user.photo} alt="" />
+            {/* <UserImg src={user.photo} alt="" /> */}
             <h3>{user.name}</h3>
             <DropDown>
               <span onClick={handleAuth}>Sign out</span>
