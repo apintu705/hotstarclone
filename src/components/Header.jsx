@@ -2,17 +2,29 @@ import React from 'react'
 import styled from "styled-components"
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { provider } from '../firebase';
+import {getsignout, getuseraction} from "../redux/action"
+
+import {useDispatch,useSelector} from 'react-redux'
 
 export const Header = (props) => {
+  const dispatch=useDispatch();
+  const {user}=useSelector((state)=>state.user);
+
     const auth = getAuth();
     const handleAuth=()=>{
+      if(!user){
         signInWithPopup(auth, provider)
-  .then((result) => {
-    const credential = GoogleAuthProvider.credentialFromResult(result);
-    console.log(credential);
-  }).catch((error) => {
-    console.log(error);
-  });
+        .then((result) => {
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+    
+        dispatch(getuseraction(result.user,credential))
+    
+      }).catch((error) => {
+      console.log(error);
+      });
+      }else{
+        dispatch(getsignout())
+      }
     }
 
 
@@ -21,33 +33,48 @@ export const Header = (props) => {
         <Logo>
             <img src="/images/logo.svg" alt="Disney+" />
         </Logo>
-        <NavMenu>
-        <a href="/home">
-              <img src="/images/home-icon.svg" alt="HOME" />
-              <span>HOME</span>
-        </a>
-            <a href="/">
-              <img src="/images/search-icon.svg" alt="SEARCH" />
-              <span>SEARCH</span>
-            </a>
-            <a href="/">
-              <img src="/images/watchlist-icon.svg" alt="WATCHLIST" />
-              <span>WATCHLIST</span>
-            </a>
-            <a href="/">
-              <img src="/images/original-icon.svg" alt="ORIGINALS" />
-              <span>ORIGINALS</span>
-            </a>
-            <a href="/">
-              <img src="/images/movie-icon.svg" alt="MOVIES" />
-              <span>MOVIES</span>
-            </a>
-            <a href="/">
-              <img src="/images/series-icon.svg" alt="SERIES" />
-              <span>SERIES</span>
-            </a>
-        </NavMenu>
-        <Login onClick={handleAuth}>Login</Login>
+
+        {!user?<Login onClick={handleAuth}>Login</Login>:(
+          <>
+            <NavMenu>
+              <a href="/home">
+                <img src="/images/home-icon.svg" alt="HOME" />
+                <span>HOME</span>
+              </a>
+             <a href="/">
+               <img src="/images/search-icon.svg" alt="SEARCH" />
+                <span>SEARCH</span>
+              </a>
+              <a href="/">
+                <img src="/images/watchlist-icon.svg" alt="WATCHLIST" />
+                <span>WATCHLIST</span>
+              </a>
+              <a href="/">
+                <img src="/images/original-icon.svg" alt="ORIGINALS" />
+                <span>ORIGINALS</span>
+              </a>
+              <a href="/">
+                <img src="/images/movie-icon.svg" alt="MOVIES" />
+                <span>MOVIES</span>
+              </a>
+              <a href="/">
+                <img src="/images/series-icon.svg" alt="SERIES" />
+                <span>SERIES</span>
+              </a>
+            </NavMenu>
+
+            <SignOut>
+            <UserImg src={user.photo} alt="" />
+            <h3>{user.name}</h3>
+            <DropDown>
+              <span onClick={handleAuth}>Sign out</span>
+            </DropDown>
+          </SignOut>
+          </>
+        )}
+
+        
+        
     </Nav>
   )
 }
@@ -66,6 +93,48 @@ const Nav= styled.nav`
     letter-spacing:16px;
     z-index: 3;
 
+`;
+
+const UserImg = styled.img`
+  height: 100%;
+`;
+const DropDown = styled.div`
+  position: absolute;
+  top: 48px;
+  right: 0px;
+  background: rgb(19, 19, 19);
+  border: 1px solid rgba(151, 151, 151, 0.34);
+  border-radius: 4px;
+  box-shadow: rgb(0 0 0 / 50%) 0px 0px 18px 0px;
+  padding: 10px;
+  font-size: 14px;
+  letter-spacing: 3px;
+  width: 100px;
+  opacity: 0;
+`;
+const SignOut = styled.div`
+  position: relative;
+  height: 48px;
+  width: 48px;
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  ${UserImg} {
+    border-radius: 50%;
+    width: 100%;
+    height: 100%;
+  }
+  &:hover {
+    ${DropDown} {
+      opacity: 1;
+      transition-duration: 1s;
+    }
+  }
+  h3{
+    letter-spacing:0;
+    text-transform: capitalize;
+  }
 `;
 const Logo = styled.a`
   padding: 0;
