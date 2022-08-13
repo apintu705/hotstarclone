@@ -1,12 +1,39 @@
 import React from 'react'
-
+import {useNavigate} from "react-router-dom"
 import styled from "styled-components"
 import ImgSlider from './Imageslider';
+import Recommends from './Recommends';
+import Viewers from './Viewers';
+import {useDispatch,useSelector} from "react-redux"
+import NewDisney from './NewDisney';
+import Originals from './Originals';
+import Trending from './Trending';
+import { useEffect } from 'react';
+import {getmovieaction} from "../redux/action"
+
 
 export const Home = () => {
+    const {user}=useSelector((state)=>state.user);
+    const navigate=useNavigate()
+        
+    const dispatch = useDispatch()
+    
+    useEffect(()=>{
+        if(!user){
+            navigate("/")
+        }
+        dispatch(getmovieaction())
+    },[user,navigate,dispatch])
+
+
   return (
     <Container>
         <ImgSlider/>
+        <Viewers/>
+        <Recommends/>
+        <NewDisney/>
+        <Originals/>
+        <Trending/>
     </Container>
   )
 }

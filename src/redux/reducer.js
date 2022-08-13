@@ -1,6 +1,6 @@
 
 export const userreducer=(state={
-    user:null
+    
 },action)=>{
     switch(action.type){
         case "SET_USER":
@@ -14,6 +14,34 @@ export const userreducer=(state={
                 ...state,
                 user:null
             }    
+        default:return {...state}
+    }
+}
+
+export const moviereducer=(state={},action)=>{
+    
+    switch(action.type){
+        
+        case "RECOMMEND":
+            return {
+                ...state,
+                recommend: action.payload
+            }
+            case "NEW":
+                return {
+                    ...state,
+                    new: action.payload
+                }
+            case "TRENDING":
+                return {
+                    ...state,
+                    trending: action.payload
+                }
+            case "ORIGINAL":
+                return {
+                    ...state,
+                    original: action.payload
+                }
         default:return {...state}
     }
 }
