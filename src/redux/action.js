@@ -9,7 +9,14 @@ export const getuseraction=(user)=>async(dispatch)=>{
     }
     dispatch({type: 'SET_USER',payload:userc})
 }
-
+export const getaccess=()=>async(dispatch)=>{
+    const userc={
+        name:"Abhshek kumar",
+        email:"apintu705@gmail.com",
+        photo:"https://cdn-icons-png.flaticon.com/128/3135/3135715.png"
+    }
+    dispatch({type: 'SET_USER',payload:userc})
+}
 export const getsignout=()=>async(dispatch)=>{
     dispatch({type: 'SIGN_OUT'})
 }
